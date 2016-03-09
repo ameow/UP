@@ -2,11 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+
+
     <link rel="stylesheet" type="text/css" href="Base.css">
+    <script src="scripts.js"></script>
     <title>My chat</title>
 </head>
-<body>
+<body onload="run();">
 
+<div id="name"></div>
 <div class="main">
     <div class="container">
             <div class="row main-block">
@@ -14,21 +18,21 @@
                         <div class="container">
                             <div class="row">
                                 <div class="cols col-12">
-                                    <h1 class="full-name">Введите имя пользователя:</h1>
+                                    <h1 class="full-name">Enter your username:</h1>
                                 </div>
                             </div>
                         </div>
                         <div class="container">
                             <div class="row">
                                 <div class="cols col-12">
-                                    <input class="Enter_name" type="text" placeholder="Введите имя пользователя...">
+                                    <input id="Enter_name" type="text" required="required" placeholder="Enter your username...">
                                 </div>
                             </div>
                         </div>
                         <div class="container">
                             <div class="row">
                                 <div class="cols col-12">
-                                    <button class="Button" name="Войти в чат" onclick="location.href='test.html'">Войти в чат</button>
+                                    <button class="Button" name="Enter Chat" onclick = "EnterNameFunction();" >Enter Chat</button>
                                 </div>
                             </div>
                         </div>

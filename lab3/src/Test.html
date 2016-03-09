@@ -3,41 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="Base.css">
+    <script src="scripts.js"></script>
     <title>My chat</title>
+
+
 </head>
 
-<body>
+<body onload="run();">
 
-
+<div id="message"></div>
 <div class="main">
     <div class="container">
         <div class="row">
             <div class="cols col-6 buttons_block">
                 <div class="Left_Block">
                     <div class="Header">
-                        <em>MY CHAT</em>
+                        <em><script>
+                            document.writeln("Welcome, " + name + "!");
+                        </script></em>
                     </div>
                     <div class="Left_Block_Form_Top">
-                        <button class="Left_Block_Buttons" name = "Отправленные сообщения" >Отправленные сообщения</button>
-                        <button class="Left_Block_Buttons" name = "Входящие сообщения" >Входящие сообщения</button>
-                        <button class="Left_Block_Buttons" name = "Редактировать сообщение" >Редактировать сообщение</button>
-                        <button class="Left_Block_Buttons" name = "Удалить сообщение" >Удалить сообщение</button>
-                        <button class="Left_Block_Buttons" name = "Редактировать имя пользователя" >Редактировать имя пользователя</button>
+                        <button class="Left_Block_Buttons_Edit_Name" name = "Edit user name">Edit user name</button>
                     </div>
                 </div>
             </div>
             <div class="cols col-6">
                 <div class="Right_Block">
-                    <form>
                         <div class="message_block">
-                            <textarea class="Read-message" disabled></textarea>
+                            <div class="Read-message">
+                            </div>
                             <div class="Label_Network_Fail"></div>
                         </div>
                         <div class="send_area">
-                            <textarea class="Write-message" placeholder="Введите Ваше сообщение..."></textarea>
-                            <button class = "Right_Block_Button_Enter" name = "Отправить сообщение">Отправить</button>
+                            <textarea id="Write-message" name="text" placeholder="Enter your message..."></textarea>
+                            <button class = "Right_Block_Button_Enter" name = "Send a message"  >Send</button>
                         </div>
-                    </form>
                 </div>
 
             </div>

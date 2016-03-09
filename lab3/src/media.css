@@ -57,6 +57,18 @@
      width: 100%;
  }
 
+ .Left_Block_Buttons_Edit_Name{
+    margin-left: 13%;
+    width: 65%;
+ }
+
+.Left_Block{
+    padding: 0 0%;
+}
+
+.Header{
+    width: 350px;
+ }
 
 
 }
