@@ -51,11 +51,14 @@ function editTextMessage(event){
     if(event.target.parentNode.nextSibling.nextSibling.innerHTML != 'Message is deleted'){
         var textM = event.target.parentNode.nextSibling.nextSibling.innerHTML;
         var _message = prompt("Edit text message: ", textM);
-        if (_message != null) {
+        var usernameM = event.target.parentNode.previousSibling.previousSibling.previousSibling.innerHTML;
+        if ((_message != null) && (name == usernameM)) {
             event.target.parentNode.nextSibling.nextSibling.innerHTML = _message + ' (Edited)';
             event.target.parentNode.previousSibling.previousSibling.setAttribute('checked', 'checked');
+        } else{
+            alert('Error!');
         }
-    } else{
+        } else{
         alert('Error! Message is deleted!!!');
     }
 
@@ -63,9 +66,15 @@ function editTextMessage(event){
 
 
 function deleteTextMessage(event){
-    var isDelete = confirm("Do you really want to delete a message?");
-    if(isDelete) {
-        event.target.parentNode.nextSibling.innerHTML = 'Message is deleted';
+    var textM = event.target.parentNode.nextSibling.innerHTML;
+    var usernameM = event.target.parentNode.previousSibling.previousSibling.previousSibling.previousSibling.innerHTML;
+    if((textM != 'Message is deleted') && (usernameM == name)) {
+        var isDelete = confirm("Do you really want to delete a message?");
+        if(isDelete) {
+            event.target.parentNode.nextSibling.innerHTML = 'Message is deleted';
+        }
+    } else{
+        alert('Error!');
     }
 }
 
@@ -100,6 +109,7 @@ function createItem(text) {
 
 
 function createMessage(text) {
+    var username = document.createElement('div');
     var message = document.createElement('div');
     var checkMessage = document.createElement('input');
     var textMessage = document.createElement('div');
@@ -113,17 +123,20 @@ function createMessage(text) {
     img_edit.setAttribute('src', 'edit.png');
     img_delete.setAttribute('src', 'delete.png');
     message.classList.add('message');
+    username.classList.add('username_message');
     checkMessage.classList.add('check_message');
     textMessage.classList.add('text_message');
     button_img_edit.classList.add('edit_message_button');
     button_img_delete.classList.add('delete_message_button');
     checkMessage.setAttribute('type', 'checkbox');
     checkMessage.setAttribute('disabled', 'disabled');
+    username.appendChild(document.createTextNode(name));
     textMessage.appendChild(document.createTextNode(text));
 
     button_img_edit.appendChild(img_edit);
     button_img_delete.appendChild(img_delete);
 
+    message.appendChild(username);
     message.appendChild(checkMessage);
     message.appendChild(document.createTextNode(name));
     message.appendChild(button_img_edit);
