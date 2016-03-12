@@ -24,13 +24,14 @@ function delegateEvent(evtObj) {
 
 function EnterNameFunction(){
     var _name = document.getElementById("Enter_name").value;
-    if (_name != ''){
+    if ((_name != '') && (_name != null)){
         name = _name;
         location.href='test.html';
     } else{
         alert('Enter your name!');
     }
 }
+
 
 function renameFunction(){
     var _name = prompt("Enter your name: ", name);
@@ -39,7 +40,7 @@ function renameFunction(){
     }
 }
 
-function myFunction() {
+function getMessage() {
     message = document.getElementById("Write-message").value;
     return message;
 }
@@ -60,6 +61,7 @@ function editTextMessage(event){
 
 }
 
+
 function deleteTextMessage(event){
     var isDelete = confirm("Do you really want to delete a message?");
     if(isDelete) {
@@ -68,7 +70,7 @@ function deleteTextMessage(event){
 }
 
 function onAddButtonClick() {
-    var todoText = myFunction();
+    var todoText = getMessage();
     addTodo(todoText);
     todoText = '';
     document.getElementById("Write-message").value = '';
@@ -77,13 +79,13 @@ function onAddButtonClick() {
 
 function addTodo(value) {
     if (!value) {
-        return;
+    return;
     }
+
     var item = createMessage(value);
-    var height = item.clientHeight;
     var items = document.getElementsByClassName('Read-message')[0];
     items.appendChild(item);
-    items.scrollTop += 1000;
+    items.scrollTop +=items.scrollHeight;
 }
 
 function createItem(text) {
