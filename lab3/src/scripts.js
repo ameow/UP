@@ -1,11 +1,12 @@
+
 function run() {
     var appContainer = document.getElementsByClassName('main')[0];
-
-
+ 
+ 
     appContainer.addEventListener('click', delegateEvent);
-
+ 
 }
-
+ 
 function delegateEvent(evtObj) {
     if (evtObj.type === 'click' && evtObj.target.classList.contains('Right_Block_Button_Enter')) {
         onAddButtonClick(evtObj);
@@ -19,35 +20,41 @@ function delegateEvent(evtObj) {
     if (evtObj.type === 'click' && evtObj.target.classList.contains('delete_pic_button')) {
         deleteTextMessage(evtObj);
     }
-
+ 
 }
-
+ 
 function EnterNameFunction(){
     var _name = document.getElementById("Enter_name").value;
     if ((_name != '') && (_name != null)){
         name = _name;
-        location.href='test.html';
+        location.href='Test.html';
     } else{
         alert('Enter your name!');
     }
 }
-
-
+ 
+ 
 function renameFunction(){
     var _name = prompt("Enter your name: ", name);
     if(_name != '') {
         name = _name;
     }
 }
-
+ 
 function getMessage() {
     message = document.getElementById("Write-message").value;
     return message;
 }
-
-
-
+ 
+ 
+ 
 function editTextMessage(event){
+    var usernameM = event.target.parentNode.parentNode.firstChild.innerHTML;
+    if (usernameM != name) {
+        alert("You are not allowed to edit messages of " + usernameM);
+    return;
+    }
+ 
     if(event.target.parentNode.nextSibling.nextSibling.innerHTML != 'Message is deleted'){
         var textM = event.target.parentNode.nextSibling.nextSibling.innerHTML;
         var _message = prompt("Edit text message: ", textM);
@@ -61,11 +68,16 @@ function editTextMessage(event){
         } else{
         alert('Error! Message is deleted!!!');
     }
-
+ 
 }
-
-
+ 
+ 
 function deleteTextMessage(event){
+    var usernameM = event.target.parentNode.parentNode.firstChild.innerHTML;
+    if (usernameM != name) {
+        alert("You are not allowed to remove messages of " + usernameM);
+    return;
+    }
     var textM = event.target.parentNode.nextSibling.innerHTML;
     var usernameM = event.target.parentNode.previousSibling.previousSibling.previousSibling.previousSibling.innerHTML;
     if((textM != 'Message is deleted') && (usernameM == name)) {
@@ -77,37 +89,37 @@ function deleteTextMessage(event){
         alert('Error!');
     }
 }
-
+ 
 function onAddButtonClick() {
     var todoText = getMessage();
     addTodo(todoText);
     todoText = '';
     document.getElementById("Write-message").value = '';
 }
-
-
+ 
+ 
 function addTodo(value) {
     if (!value) {
     return;
     }
-
+ 
     var item = createMessage(value);
     var items = document.getElementsByClassName('Read-message')[0];
     items.appendChild(item);
     items.scrollTop +=items.scrollHeight;
 }
-
+ 
 function createItem(text) {
     var divItem = document.createElement('div');
     divItem.classList.add('message');
-
+ 
     divItem.appendChild(createMessage(text));
-
-
+ 
+ 
     return divItem;
 }
-
-
+ 
+ 
 function createMessage(text) {
     var username = document.createElement('div');
     var message = document.createElement('div');
@@ -117,7 +129,7 @@ function createMessage(text) {
     var button_img_delete = document.createElement('button');
     var img_edit = document.createElement('img');
     var img_delete = document.createElement('img');
-
+ 
     img_edit.classList.add('edit_pic_button');
     img_delete.classList.add('delete_pic_button');
     img_edit.setAttribute('src', 'edit.png');
@@ -132,10 +144,10 @@ function createMessage(text) {
     checkMessage.setAttribute('disabled', 'disabled');
     username.appendChild(document.createTextNode(name));
     textMessage.appendChild(document.createTextNode(text));
-
+ 
     button_img_edit.appendChild(img_edit);
     button_img_delete.appendChild(img_delete);
-
+ 
     message.appendChild(username);
     message.appendChild(checkMessage);
     message.appendChild(document.createTextNode(name));
