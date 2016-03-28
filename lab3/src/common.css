@@ -1,20 +1,20 @@
 
-.Left_Block, Right_Block{
+.left_block, right_block{
     display:inline-block;
     float:left;
 }
 
-.Left_Block{
+.left_block{
     padding: 0 20%;
 }
 
-.Right_Block{
+.right_block{
     display: inline-block;
     margin-left:13%;
     width: 76%;
 }
 
-.Header{
+.header{
     font-family: fantasy, sans-serif;
     font-size: 2em;
     margin: 12% 5% auto;
@@ -24,7 +24,7 @@
 }
 
 
-.Left_Block_Form_Top{
+.left_block_form_top{
     display: block;
     height: 59%;
     width: 100%;
@@ -41,7 +41,7 @@
     height: 0px;
 }
 
-.Left_Block_Buttons_Edit_Name{
+.left_block_buttons_edit_name{
     display: inline-block;
     margin-top: 10%;
     border-radius: 0.2em;
@@ -53,7 +53,7 @@
 }
 
 
-.Right_Block_Button_Enter{
+.right_block_button_enter{
     width: 28%;
     height: 100%;
     display: inline-block;
@@ -64,7 +64,7 @@
     border-radius: 3px;
 }
 
-.Read-message{
+.read-message{
     margin-top:25%;
     display: block;
     width: 100%;
@@ -102,7 +102,7 @@
     height: 40px;
 }
 
-#Write-message{
+#write-message{
     resize: none;
     width: 70%;
     height: 100%;
@@ -111,7 +111,7 @@
     font-size: 0.8em;
 }
 
-.Name_Creator{
+.name_creator{
     width: 182px;
     margin: 5% auto;
 }
@@ -120,7 +120,7 @@
     position: relative;
 }
 
-.Label_Network_Fail{
+.label_network_fail{
     position: absolute;
     right: -10%;
     top: 0%;

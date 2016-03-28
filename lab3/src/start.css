@@ -14,7 +14,7 @@ h1 {
 
 
 
-#Enter_name{
+#enter_name{
     display: inline-block;
     resize: none;
     width: 100%;
@@ -24,7 +24,7 @@ h1 {
     padding: 10px 0;
 }
 
-.Button{
+.button{
     display: inline-block;
     height: 50px;
     width: 100%;
@@ -36,7 +36,7 @@ h1 {
 
 
 
-.Name_Creator_start{
+.name_creator_start{
 
     width: 182px;
         margin: 5% auto;

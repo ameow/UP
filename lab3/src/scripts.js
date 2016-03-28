@@ -17,6 +17,10 @@ var theMessage = function(theText, theName, theEdit, theDelete) {
 };
 
 var messageList = [];
+var name;
+var KEY_LOCAL_STORAGE_USERNAME = 'CHATs username';
+var KEY_LOCAL_STORAGE_MESSAGE_LIST = 'CHATs messageList';
+var ERROR_LOCAL_STORAGE = 'localStorage is not accessible';
 
 function run() {
     var appContainer = document.getElementsByClassName('main')[0];
@@ -25,6 +29,8 @@ function run() {
     appContainer.addEventListener('click', delegateEvent);
 
     var allMessages = restore() || [];
+
+    name = restoreName() || 'Username';
 
 
     createAllMessages(allMessages);
@@ -40,10 +46,10 @@ function createAllMessages(allMessages) {
 
 
 function delegateEvent(evtObj) {
-    if (evtObj.type === 'click' && evtObj.target.classList.contains('Right_Block_Button_Enter')) {
+    if (evtObj.type === 'click' && evtObj.target.classList.contains('right_block_button_enter')) {
         onAddButtonClick(evtObj);
     }
-    if (evtObj.type === 'click' && evtObj.target.classList.contains('Left_Block_Buttons_Edit_Name')) {
+    if (evtObj.type === 'click' && evtObj.target.classList.contains('left_block_buttons_edit_name')) {
         renameFunction(evtObj);
     }
     if (evtObj.type === 'click' && evtObj.target.classList.contains('edit_pic_button')) {
@@ -56,10 +62,11 @@ function delegateEvent(evtObj) {
 
 
  
-function EnterNameFunction(){
-    var _name = document.getElementById("Enter_name").value;
+function enterNameFunction(){
+    var _name = document.getElementById("enter_name").value;
     if ((_name != '') && (_name != null)){
         name = _name;
+        storeName(name);
         location.href='Test.html';
     } else{
         alert('Enter your name!');
@@ -69,13 +76,14 @@ function EnterNameFunction(){
  
 function renameFunction(){
     var _name = prompt("Enter your name: ", name);
-    if(_name != '') {
+    if(_name != null) {
         name = _name;
+        storeName(name);
     }
 }
  
 function getMessage() {
-    message = document.getElementById("Write-message").value;
+    message = document.getElementById("write-message").value;
     return message;
 }
 
@@ -94,12 +102,10 @@ function editTextMessage(event){
             event.target.parentNode.nextSibling.nextSibling.innerHTML = _message + ' (Edited)';
             event.target.parentNode.previousSibling.previousSibling.setAttribute('checked', 'checked');
             swapEditAttribute(event.target.parentNode.parentNode.getAttribute('message-id'), _message);
+            }
         } else{
-            alert('Error!');
-        }
-        } else{
-        alert('Error! Message is deleted!!!');
-    }
+            alert('Error! Message is deleted!!!');
+            }
 }
 
 function swapEditAttribute(valueId, newText) {
@@ -155,7 +161,7 @@ function onAddButtonClick() {
     var newMessage = theMessage(todoText, name, false, false);
     addTodo(newMessage);
     todoText = '';
-    document.getElementById("Write-message").value = '';
+    document.getElementById("write-message").value = '';
 
     store(messageList);
 }
@@ -163,7 +169,7 @@ function onAddButtonClick() {
  
 function addTodo(newMessage) {
     var item = createMessage(newMessage);
-    var items = document.getElementsByClassName('Read-message')[0];
+    var items = document.getElementsByClassName('read-message')[0];
     messageList.push(newMessage);
     items.appendChild(item);
     items.scrollTop +=items.scrollHeight;
@@ -218,20 +224,42 @@ function store(listToSave) {
 
     //alert(JSON.stringify(listToSave, null, 2));
 	if(typeof(Storage) == "undefined") {
-		alert('localStorage is not accessible');
+		alert(ERROR_LOCAL_STORAGE);
 		return;
 	}
 
-	localStorage.setItem("CHATs messageList", JSON.stringify(listToSave));
+	localStorage.setItem(KEY_LOCAL_STORAGE_MESSAGE_LIST, JSON.stringify(listToSave));
 }
 
 function restore() {
 	if(typeof(Storage) == "undefined") {
-		alert('localStorage is not accessible');
+		alert(ERROR_LOCAL_STORAGE);
 		return;
 	}
 
-	var item = localStorage.getItem("CHATs messageList");
+	var item = localStorage.getItem(KEY_LOCAL_STORAGE_MESSAGE_LIST);
+
+	return item && JSON.parse(item);
+}
+
+function storeName(usernameToSave) {
+
+    //alert(JSON.stringify(usernameToSave, null, 2));
+	if(typeof(Storage) == "undefined") {
+		alert(ERROR_LOCAL_STORAGE);
+		return;
+	}
+
+	localStorage.setItem(KEY_LOCAL_STORAGE_USERNAME, JSON.stringify(usernameToSave));
+}
+
+function restoreName() {
+	if(typeof(Storage) == "undefined") {
+		alert(ERROR_LOCAL_STORAGE);
+		return;
+	}
+
+	var item = localStorage.getItem(KEY_LOCAL_STORAGE_USERNAME);
 
 	return item && JSON.parse(item);
 }

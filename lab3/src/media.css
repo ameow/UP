@@ -16,7 +16,7 @@
     margin-bottom: 5%;
    }
 
-   .Button{
+   .button{
     margin-top: 2%;
    }
 
@@ -46,7 +46,7 @@
 
 /* Extra Small Devices, Phones */
 @media only screen and (max-width : 480px) {
- .Name_Creator_start{
+ .name_creator_start{
    right: 23%;
   }
   .enter_block{
@@ -57,16 +57,16 @@
      width: 100%;
  }
 
- .Left_Block_Buttons_Edit_Name{
+ .left_block_buttons_edit_name{
     margin-left: 13%;
     width: 65%;
  }
 
-.Left_Block{
+.left_block{
     padding: 0 0%;
 }
 
-.Header{
+.header{
     width: 350px;
  }
 
