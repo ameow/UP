@@ -13,15 +13,20 @@ import by.bsu.up.chat.utils.StringUtils;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static by.bsu.up.chat.utils.MessageHelper.inputStreamToString;
+import static by.bsu.up.chat.utils.MessageHelper.stringToJsonObject;
 
 public class ServerHandler implements HttpHandler {
 
@@ -116,6 +121,8 @@ public class ServerHandler implements HttpHandler {
             return new Response(Constants.RESPONSE_CODE_BAD_REQUEST, "Incorrect request body");
         }
     }
+
+
 
     private Response doDelete(HttpExchange httpExchange) {
         try {

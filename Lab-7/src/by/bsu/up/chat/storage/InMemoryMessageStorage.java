@@ -3,8 +3,12 @@ package by.bsu.up.chat.storage;
 import by.bsu.up.chat.common.models.Message;
 import by.bsu.up.chat.logging.Logger;
 import by.bsu.up.chat.logging.impl.Log;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,8 +20,8 @@ public class InMemoryMessageStorage implements MessageStorage {
 
     private List<Message> messages = new ArrayList<>();
 
-    public InMemoryMessageStorage(DEFAULT_PERSISTENCE_FILE) {
-        messages = readFile();
+    public InMemoryMessageStorage() {
+        messages = readFile(DEFAULT_PERSISTENCE_FILE);
     }
 
     @Override
@@ -44,27 +48,24 @@ public class InMemoryMessageStorage implements MessageStorage {
     public boolean updateMessage(Message message) {
         String id = message.getId();
         for (Message item: messages) {
-            if (item.getId().compareTo(id)) {
-                item.setText(message.getText);
+            if (item.getId().compareTo(id) == 0) {
+                item.setText(message.getText());
                 writeFile(messages);
                 return true;
             }
         }
-
-        throw new UnsupportedOperationException("Update for messages is not supported yet");
         return false;
     }
 
     @Override
     public synchronized boolean removeMessage(String messageId) {
         for (Message item: messages) {
-            if (item.getId().compareTo(messageId)) {
+            if (item.getId().compareTo(messageId) == 0) {
                 messages.remove(item);
                 writeFile(messages);
                 return true;
             }
         }
-        throw new UnsupportedOperationException("Removing of messages is not supported yet");
         return false;
     }
 
