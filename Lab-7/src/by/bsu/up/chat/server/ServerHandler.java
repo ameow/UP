@@ -98,7 +98,9 @@ public class ServerHandler implements HttpHandler {
         try {
             Message message = MessageHelper.getClientMessage(httpExchange.getRequestBody());
             logger.info(String.format("Received new message from user: %s", message));
-            messageStorage.addMessage(message);
+            if (!messageStorage.addMessage(message)) {
+                return new Response(Constants.RESPONSE_CODE_BAD_REQUEST, "Incorrect request body");
+            }
             return Response.ok();
         } catch (ParseException e) {
             logger.error("Could not parse message.", e);
@@ -115,7 +117,7 @@ public class ServerHandler implements HttpHandler {
             message.setId(id);
             message.setText(text);
             messageStorage.updateMessage(message);
-            return Response.withCode(Constants.RESPONSE_CODE_NOT_IMPLEMENTED);
+            return Response.ok();
         } catch (ParseException e) {
             logger.error("Could not parse message.", e);
             return new Response(Constants.RESPONSE_CODE_BAD_REQUEST, "Incorrect request body");
@@ -129,7 +131,7 @@ public class ServerHandler implements HttpHandler {
             JSONObject jsonObject = stringToJsonObject(inputStreamToString(httpExchange.getRequestBody()));
             String id = ((String) jsonObject.get(Constants.Message.FIELD_ID));
             messageStorage.removeMessage(id);
-            return Response.withCode(Constants.RESPONSE_CODE_NOT_IMPLEMENTED);
+            return Response.ok();
         } catch (ParseException e) {
             logger.error("Could not parse message.", e);
             return new Response(Constants.RESPONSE_CODE_BAD_REQUEST, "Incorrect request body");

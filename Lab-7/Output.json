@@ -1,15 +1,14 @@
 [
   {
-    "id": "2",
+    "id": "4",
     "author": "User 2",
     "timestamp": 1459169330000,
-    "text": "What’s up ?"
-  }
-][
+    "text": "Good evening"
+  },
   {
-    "id": "2",
+    "id": "5",
     "author": "User 2",
     "timestamp": 1459169330000,
-    "text": "Hello, World!"
+    "text": "Good evening"
   }
-][]
+]

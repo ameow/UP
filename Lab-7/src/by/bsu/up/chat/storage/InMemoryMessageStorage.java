@@ -14,7 +14,7 @@ import java.util.List;
 
 public class InMemoryMessageStorage implements MessageStorage {
 
-    private static final String DEFAULT_PERSISTENCE_FILE = "messages.srg";
+    private static final String DEFAULT_PERSISTENCE_FILE = "Output.json";
 
     private static final Logger logger = Log.create(InMemoryMessageStorage.class);
 
@@ -39,9 +39,16 @@ public class InMemoryMessageStorage implements MessageStorage {
     }
 
     @Override
-    public void addMessage(Message message) {
+    public boolean addMessage(Message message) {
+        for (Message item: messages) {
+            if (message.getId().equals(item.getId())) {
+
+                return false;
+            }
+        }
         messages.add(message);
         writeFile(messages);
+        return true;
     }
 
     @Override
@@ -76,7 +83,7 @@ public class InMemoryMessageStorage implements MessageStorage {
 
     public void writeFile(List<Message> listMessage) {
         try {
-            FileWriter writer = new FileWriter("Output.json", true);
+            FileWriter writer = new FileWriter(DEFAULT_PERSISTENCE_FILE, false);
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             gson.toJson(listMessage, writer);
             writer.close();
