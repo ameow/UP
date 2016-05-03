@@ -22,20 +22,19 @@ var KEY_LOCAL_STORAGE_USERNAME = 'CHATs username';
 var KEY_LOCAL_STORAGE_MESSAGE_LIST = 'CHATs messageList';
 var ERROR_LOCAL_STORAGE = 'localStorage is not accessible';
 
+var appState = {
+	mainUrl : 'http://localhost:1555/todos',
+	taskList:[],
+	token : 'TE11EN'
+};
+
 function run() {
     var appContainer = document.getElementsByClassName('main')[0];
- 
- 
+
     appContainer.addEventListener('click', delegateEvent);
-
     var allMessages = restore() || [];
-
     name = restoreName() || 'Username';
-
-
     createAllMessages(allMessages);
-
-
 }
 
 function createAllMessages(allMessages) {
@@ -244,7 +243,6 @@ function restore() {
 
 function storeName(usernameToSave) {
 
-    //alert(JSON.stringify(usernameToSave, null, 2));
 	if(typeof(Storage) == "undefined") {
 		alert(ERROR_LOCAL_STORAGE);
 		return;
@@ -264,3 +262,14 @@ function restoreName() {
 	return item && JSON.parse(item);
 }
 
+function get(url, continueWith, continueWithError) {
+	ajax('GET', url, null, continueWith, continueWithError);
+}
+
+function post(url, data, continueWith, continueWithError) {
+	ajax('POST', url, data, continueWith, continueWithError);
+}
+
+function put(url, data, continueWith, continueWithError) {
+	ajax('PUT', url, data, continueWith, continueWithError);
+}
