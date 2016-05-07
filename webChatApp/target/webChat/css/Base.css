@@ -21,17 +21,17 @@ body{
 }
 
 
-.container: before,
-.container: after,
-.row: after,
-.row: before,
-.clear: before,
-.clear: after {
-    content: " ";
-    display: table;
-}
+/*.container: before,*/
+/*.container: after,*/
+/*.row: after,*/
+/*.row: before,*/
+/*.clear: before,*/
+/*.clear: after {*/
+    /*content: " ";*/
+    /*display: table;*/
+/*}*/
 
-.clear: after {
-    clear: both;
-}
+/*.clear: after {*/
+    /*clear: both;*/
+/*}*/
 

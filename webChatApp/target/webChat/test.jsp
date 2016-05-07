@@ -1,3 +1,11 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: Meow
+  Date: 03.05.16
+  Time: 12:32
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,15 +33,15 @@
             </div>
             <div class="cols col-6">
                 <div class="right_block">
-                        <div class="message_block">
-                            <div class="read-message">
-                            </div>
-                            <div class="label_network_fail"></div>
+                    <div class="message_block">
+                        <div class="read-message">
                         </div>
-                        <div class="send_area">
-                            <textarea id="write-message" name="text" placeholder="Enter your message..."></textarea>
-                            <button class = "right_block_button_enter" name = "Send a message"  >Send</button>
-                        </div>
+                        <div class="label_network_fail"></div>
+                    </div>
+                    <div class="send_area">
+                        <textarea id="write-message" name="text" placeholder="Enter your message..."></textarea>
+                        <button class = "right_block_button_enter" name = "Send a message"  >Send</button>
+                    </div>
                 </div>
 
             </div>
@@ -44,9 +52,9 @@
                     </div>
                 </div>
             </div>
-            </div>
         </div>
     </div>
+</div>
 
 </body>
 </html>

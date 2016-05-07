@@ -8,7 +8,7 @@
    }
    .main{
        height: 100%;
-       background: grey url(image.jpg);
+       background: grey url(../image/image.jpg);
        background-repeat: repeat-y;
    }
 

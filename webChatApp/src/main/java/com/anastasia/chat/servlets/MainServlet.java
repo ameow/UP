@@ -1,4 +1,4 @@
-package com.anastasia.chat;
+package com.anastasia.chat.servlets;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,10 +11,19 @@ import java.io.IOException;
  * Created by Meow on 03.05.16.
  */
 
-@WebServlet(value = "/")
+@WebServlet(value = "/chat")
 public class MainServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("test.jsp").forward(req, resp);
+
+        String isLogged = (String)req.getSession().getAttribute("isLogged");
+
+        if(isLogged != null && isLogged.equals("true")){
+            req.getRequestDispatcher("test.jsp").forward(req, resp);
+        }else{
+            req.getRequestDispatcher("start.jsp").forward(req, resp);
+        }
     }
 }
+
+

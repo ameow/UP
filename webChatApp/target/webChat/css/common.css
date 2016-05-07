@@ -1,5 +1,5 @@
 
-.left_block, right_block{
+.left_block, .right_block{
     display:inline-block;
     float:left;
 }

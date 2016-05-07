@@ -1,7 +1,7 @@
 
 .main{
     height: 800px;
-    background: grey url(image.jpg);
+    background: grey url(../image/image.jpg);
     background-repeat: repeat-y;
 }
 
@@ -14,7 +14,7 @@ h1 {
 
 
 
-#enter_name{
+.enter_name, .enter_password{
     display: inline-block;
     resize: none;
     width: 100%;
