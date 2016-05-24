@@ -221,7 +221,6 @@ function createMessage(newMessage) {
 
 function store(listToSave) {
 
-    //alert(JSON.stringify(listToSave, null, 2));
 	if(typeof(Storage) == "undefined") {
 		alert(ERROR_LOCAL_STORAGE);
 		return;

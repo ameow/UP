@@ -1,0 +1,13 @@
+1. SELECT * FROM chat.Messages order by text_date;
+2. SELECT * FROM chat.Messages where user_id = 2;
+3. SELECT * FROM chat.Messages where text_date like "2016-05-09%" and user_id = 6;
+4. SELECT * FROM chat.Messages where user_id = 2 and text_message like "%hello%";
+5. SELECT user_id FROM chat.Messages group by user_id having count(text_message) > 3;
+6. SELECT distinct name FROM chat.Users; 
+7. SELECT distinct name FROM chat.Users;
+8. SELECT user_id, text_date, text_message FROM chat.Messages where user_id = 2 order by text_date;
+9. SELECT s.name, e.user_id, e.text_message, text_date FROM Users as s right join Messages as e on s.id = e.user_id where length(text_message) > 140;
+10. SELECT * FROM chat.Messages order by text_date desc limit 5;
+12. SELECT s.name, count(text_date) FROM Users as s right join Messages as e on s.id = e.user_id where text_date like "2016-05-09%" group by e.user_id;
+13. SELECT user_id FROM chat.Messages where text_date like "current_date()%" group by user_id having count(text_date) > 3;
+14. SELECT s.name, e.user_id, e.text_message, text_date FROM Users as s right join Messages as e on s.id = e.user_id where text_message like "%hello%";
