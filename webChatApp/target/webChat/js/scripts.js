@@ -21,20 +21,48 @@ var name;
 var KEY_LOCAL_STORAGE_USERNAME = 'CHATs username';
 var KEY_LOCAL_STORAGE_MESSAGE_LIST = 'CHATs messageList';
 var ERROR_LOCAL_STORAGE = 'localStorage is not accessible';
+var isConnected = void 0;
 
 var appState = {
-	mainUrl : 'http://localhost:1555/todos',
+	mainUrl : 'http://localhost:1234/chat',
 	taskList:[],
 	token : 'TE11EN'
 };
 
+function Connect() {
+    if (isConnected) {
+        return;
+    }
+    ajax('GET', appState.mainUrl + '?token=' + token, null, function (responseText) {
+        if (isConnected) {
+            var newMes = JSON.parse(responseText).messages;
+            token = JSON.parse(responseText).token;
+            updatePage(newMes);
+        }
+    });
+    function whileConnected() {
+        isConnected = setTimeout(function () {
+            ajax('GET', mainUrl + '?token=' + token, null, function (responseText) {
+                if (isConnected) {
+                    var newMes = JSON.parse(responseText).messages;
+                    token = JSON.parse(responseText).token;
+                    updatePage(newMes);
+                    whileConnected();
+                }
+            });
+        }, seconds(1));
+    }
+
+    whileConnected();
+}
+
 function run() {
     var appContainer = document.getElementsByClassName('main')[0];
-
     appContainer.addEventListener('click', delegateEvent);
     var allMessages = restore() || [];
     name = restoreName() || 'Username';
     createAllMessages(allMessages);
+    Connect();
 }
 
 function createAllMessages(allMessages) {
@@ -66,7 +94,7 @@ function enterNameFunction(){
     if ((_name != '') && (_name != null)){
         name = _name;
         storeName(name);
-        location.href='/chat';
+        location.href='/login';
     } else{
         alert('Enter your name!');
     }
@@ -172,7 +200,6 @@ function addTodo(newMessage) {
     messageList.push(newMessage);
     items.appendChild(item);
     items.scrollTop +=items.scrollHeight;
-
 }
 
 
@@ -221,7 +248,6 @@ function createMessage(newMessage) {
 
 function store(listToSave) {
 
-    //alert(JSON.stringify(listToSave, null, 2));
 	if(typeof(Storage) == "undefined") {
 		alert(ERROR_LOCAL_STORAGE);
 		return;
@@ -262,6 +288,8 @@ function restoreName() {
 	return item && JSON.parse(item);
 }
 
+
+
 function get(url, continueWith, continueWithError) {
 	ajax('GET', url, null, continueWith, continueWithError);
 }
@@ -272,4 +300,31 @@ function post(url, data, continueWith, continueWithError) {
 
 function put(url, data, continueWith, continueWithError) {
 	ajax('PUT', url, data, continueWith, continueWithError);
+}
+
+function updatePage(newMes) {
+    if ((newMes.length - messageList.length) != 0) {
+        for (var i = messageList.length; i < newMes.length; i++) {
+            addTodo(newMes[i]);
+        }
+    }
+}
+
+function ajax(method, url, data, continueWith) {
+    var xhr = new XMLHttpRequest();
+    xhr.open(method || 'GET', url, true);
+    xhr.onload = function () {
+        if (xhr.readyState !== 4) {
+            return;
+        }
+
+        if (xhr.status != 200) {
+            return;
+        }
+        continueWith(xhr.responseText);
+    };
+    xhr.onerror = function () {
+        document.getElementsByClassName('label_network_fail')[0].style.display = 'block';
+    };
+    xhr.send(data);
 }

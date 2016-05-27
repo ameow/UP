@@ -43,7 +43,6 @@
                         <button class = "right_block_button_enter" name = "Send a message"  >Send</button>
                     </div>
                 </div>
-
             </div>
             <div class="row">
                 <div class="cols col-12">

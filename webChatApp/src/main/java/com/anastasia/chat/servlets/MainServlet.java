@@ -11,10 +11,11 @@ import java.io.IOException;
  * Created by Meow on 03.05.16.
  */
 
-@WebServlet(value = "/chat")
+@WebServlet(value = "/login")
 public class MainServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
 
         String isLogged = (String)req.getSession().getAttribute("isLogged");
 

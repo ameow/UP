@@ -1,19 +1,19 @@
 
 var uniqueId = function() {
-	var date = Date.now();
-	var random = Math.random() * Math.random();
+    var date = Date.now();
+    var random = Math.random() * Math.random();
 
-	return Math.floor(date * random).toString();
+    return Math.floor(date * random).toString();
 };
 
 var theMessage = function(theText, theName, theEdit, theDelete) {
-	return {
-		description:theText,
-		user:theName,
-		theEdit: !!theEdit,
-		theDelete: !!theDelete,
+    return {
+        description:theText,
+        user:theName,
+        theEdit: !!theEdit,
+        theDelete: !!theDelete,
         id: uniqueId()
-	};
+    };
 };
 
 var messageList = [];
@@ -21,26 +21,60 @@ var name;
 var KEY_LOCAL_STORAGE_USERNAME = 'CHATs username';
 var KEY_LOCAL_STORAGE_MESSAGE_LIST = 'CHATs messageList';
 var ERROR_LOCAL_STORAGE = 'localStorage is not accessible';
+var isConnected = void 0;
 
 var appState = {
-	mainUrl : 'http://localhost:1555/todos',
-	taskList:[],
-	token : 'TE11EN'
+    mainUrl : 'http://localhost:1234/chat',
+    taskList:[],
+    token : 'TN11EN'
 };
+
+function Connect() {
+    if (isConnected) {
+        return;
+    }
+    ajax('GET', appState.mainUrl + '?token=' + appState.token, null, function (responseText) {
+        if (isConnected) {
+            //alert(JSON.parse(responseText).messages[0].id);
+            var newMes = JSON.parse(responseText).messages;
+            token = JSON.parse(responseText).token;
+            updatePage(newMes);
+        }
+    });
+    function whileConnected() {
+        isConnected = setTimeout(function () {
+            ajax('GET', appState.mainUrl + '?token=' + appState.token, null, function (responseText) {
+                if (isConnected) {
+                    var newMes = JSON.parse(responseText).messages;
+                    token = JSON.parse(responseText).token;
+                    updatePage(newMes);
+                    whileConnected();
+                }
+            });
+        }, seconds(8));
+    }
+
+    whileConnected();
+}
+
+function seconds(value) {
+    return Math.round(value * 1000);
+}
 
 function run() {
     var appContainer = document.getElementsByClassName('main')[0];
-
     appContainer.addEventListener('click', delegateEvent);
-    var allMessages = restore() || [];
-    name = restoreName() || 'Username';
+    //var allMessages = restore() || [];
+    //name = restoreName() || 'Username';
+    var allMessages = [];
     createAllMessages(allMessages);
+    Connect();
 }
 
 function createAllMessages(allMessages) {
-	for(var i = 0; i < allMessages.length; i++){
-		addTodo(allMessages[i]);
-		}
+    for(var i = 0; i < allMessages.length; i++){
+        addTodo(allMessages[i]);
+    }
 }
 
 
@@ -60,19 +94,19 @@ function delegateEvent(evtObj) {
 }
 
 
- 
+
 function enterNameFunction(){
     var _name = document.getElementById("enter_name").value;
     if ((_name != '') && (_name != null)){
         name = _name;
         storeName(name);
-        location.href='Test.html';
+        location.href='/chat';
     } else{
         alert('Enter your name!');
     }
 }
- 
- 
+
+
 function renameFunction(){
     var _name = prompt("Enter your name: ", name);
     if(_name != null) {
@@ -80,13 +114,13 @@ function renameFunction(){
         storeName(name);
     }
 }
- 
+
 function getMessage() {
     message = document.getElementById("write-message").value;
     return message;
 }
 
- 
+
 function editTextMessage(event){
     var usernameM = event.target.parentNode.parentNode.firstChild.innerHTML;
     var isDeleteM = event.target.parentNode.parentNode.getAttribute('isDelete');
@@ -101,10 +135,10 @@ function editTextMessage(event){
             event.target.parentNode.nextSibling.nextSibling.innerHTML = _message + ' (Edited)';
             event.target.parentNode.previousSibling.previousSibling.setAttribute('checked', 'checked');
             swapEditAttribute(event.target.parentNode.parentNode.getAttribute('message-id'), _message);
-            }
-        } else{
-            alert('Error! Message is deleted!!!');
-            }
+        }
+    } else{
+        alert('Error! Message is deleted!!!');
+    }
 }
 
 function swapEditAttribute(valueId, newText) {
@@ -117,8 +151,8 @@ function swapEditAttribute(valueId, newText) {
         }
     }
 }
- 
- 
+
+
 function deleteTextMessage(event){
     var usernameM = event.target.parentNode.parentNode.firstChild.innerHTML;
     var isDeleteM = event.target.parentNode.parentNode.getAttribute('isDelete');
@@ -149,13 +183,13 @@ function swapDeleteAttribute(valueId) {
     }
 }
 
- 
+
 function onAddButtonClick() {
     var todoText = getMessage();
 
     if (!todoText) {
         return;
-        }
+    }
 
     var newMessage = theMessage(todoText, name, false, false);
     addTodo(newMessage);
@@ -164,15 +198,14 @@ function onAddButtonClick() {
 
     store(messageList);
 }
- 
- 
+
+
 function addTodo(newMessage) {
     var item = createMessage(newMessage);
     var items = document.getElementsByClassName('read-message')[0];
     messageList.push(newMessage);
     items.appendChild(item);
     items.scrollTop +=items.scrollHeight;
-
 }
 
 
@@ -186,7 +219,7 @@ function createMessage(newMessage) {
     var img_edit = document.createElement('img');
     var img_delete = document.createElement('img');
 
- 
+
     img_edit.classList.add('edit_pic_button');
     img_delete.classList.add('delete_pic_button');
     img_edit.setAttribute('src', 'edit.png');
@@ -204,7 +237,7 @@ function createMessage(newMessage) {
     }
     username.appendChild(document.createTextNode(newMessage.user));
     textMessage.appendChild(document.createTextNode(newMessage.description));
- 
+
     button_img_edit.appendChild(img_edit);
     button_img_delete.appendChild(img_delete);
 
@@ -221,55 +254,93 @@ function createMessage(newMessage) {
 
 function store(listToSave) {
 
-    //alert(JSON.stringify(listToSave, null, 2));
-	if(typeof(Storage) == "undefined") {
-		alert(ERROR_LOCAL_STORAGE);
-		return;
-	}
+    if(typeof(Storage) == "undefined") {
+        alert(ERROR_LOCAL_STORAGE);
+        return;
+    }
 
-	localStorage.setItem(KEY_LOCAL_STORAGE_MESSAGE_LIST, JSON.stringify(listToSave));
+    localStorage.setItem(KEY_LOCAL_STORAGE_MESSAGE_LIST, JSON.stringify(listToSave));
 }
 
 function restore() {
-	if(typeof(Storage) == "undefined") {
-		alert(ERROR_LOCAL_STORAGE);
-		return;
-	}
+    if(typeof(Storage) == "undefined") {
+        alert(ERROR_LOCAL_STORAGE);
+        return;
+    }
 
-	var item = localStorage.getItem(KEY_LOCAL_STORAGE_MESSAGE_LIST);
+    var item = localStorage.getItem(KEY_LOCAL_STORAGE_MESSAGE_LIST);
 
-	return item && JSON.parse(item);
+    return item && JSON.parse(item);
 }
 
 function storeName(usernameToSave) {
 
-	if(typeof(Storage) == "undefined") {
-		alert(ERROR_LOCAL_STORAGE);
-		return;
-	}
+    if(typeof(Storage) == "undefined") {
+        alert(ERROR_LOCAL_STORAGE);
+        return;
+    }
 
-	localStorage.setItem(KEY_LOCAL_STORAGE_USERNAME, JSON.stringify(usernameToSave));
+    localStorage.setItem(KEY_LOCAL_STORAGE_USERNAME, JSON.stringify(usernameToSave));
 }
 
 function restoreName() {
-	if(typeof(Storage) == "undefined") {
-		alert(ERROR_LOCAL_STORAGE);
-		return;
-	}
+    if(typeof(Storage) == "undefined") {
+        alert(ERROR_LOCAL_STORAGE);
+        return;
+    }
 
-	var item = localStorage.getItem(KEY_LOCAL_STORAGE_USERNAME);
+    var item = localStorage.getItem(KEY_LOCAL_STORAGE_USERNAME);
 
-	return item && JSON.parse(item);
+    return item && JSON.parse(item);
 }
 
+
+
 function get(url, continueWith, continueWithError) {
-	ajax('GET', url, null, continueWith, continueWithError);
+    ajax('GET', url, null, continueWith, continueWithError);
 }
 
 function post(url, data, continueWith, continueWithError) {
-	ajax('POST', url, data, continueWith, continueWithError);
+    ajax('POST', url, data, continueWith, continueWithError);
 }
 
 function put(url, data, continueWith, continueWithError) {
-	ajax('PUT', url, data, continueWith, continueWithError);
+    ajax('PUT', url, data, continueWith, continueWithError);
+}
+
+function updatePage(newMes) {
+    //alert(newMes[0].description);
+    //alert(newMes.length);
+    //alert(messageList.length);
+    if ((newMes.length - messageList.length) != 0) {
+        for (var i = messageList.length; i < newMes.length; i++) {
+            alert(newMes[i].text);
+            addTodo(newMes[i]);
+
+            var item = createMessage(newMessage);
+            var items = document.getElementsByClassName('read-message')[0];
+            messageList.push(newMessage);
+            items.appendChild(item);
+            items.scrollTop +=items.scrollHeight;
+        }
+    }
+}
+
+function ajax(method, url, data, continueWith) {
+    var xhr = new XMLHttpRequest();
+    xhr.open(method || 'GET', url, true);
+    xhr.onload = function () {
+        if (xhr.readyState !== 4) {
+            return;
+        }
+
+        if (xhr.status != 200) {
+            return;
+        }
+        continueWith(xhr.responseText);
+    };
+    xhr.onerror = function () {
+        document.getElementsByClassName('label_network_fail')[0].style.display = 'block';
+    };
+    xhr.send(data);
 }

@@ -126,16 +126,16 @@ public class ServerHandler implements HttpHandler {
 
 
 
-    private Response doDelete(HttpExchange httpExchange) {
-        try {
-            JSONObject jsonObject = stringToJsonObject(inputStreamToString(httpExchange.getRequestBody()));
-            String id = ((String) jsonObject.get(Constants.Message.FIELD_ID));
-            messageStorage.removeMessage(id);
-            return Response.ok();
-        } catch (ParseException e) {
-            logger.error("Could not parse message.", e);
-            return new Response(Constants.RESPONSE_CODE_BAD_REQUEST, "Incorrect request body");
-        }
+    private Response doDeletetry {
+        JSONObject jsonObject = stringToJsonObject(inputStreamToString(httpExchange.getRequestBody()));
+        String id = ((String) jsonObject.get(Constants.Message.FIELD_ID));
+        messageStorage.removeMessage(id);
+        return Response.ok();
+    } catch (ParseException e) {
+        logger.error("Could not parse message.", e);
+        return new Response(Constants.RESPONSE_CODE_BAD_REQUEST, "Incorrect request body");
+    }(HttpExchange httpExchange) {
+
     }
 
     private Response doOptions(HttpExchange httpExchange) {

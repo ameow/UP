@@ -5,9 +5,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
 
-/**
- * Created by Meow on 06.05.16.
- */
+
 public class HashCode {
 
     public static String encryptPassword(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {

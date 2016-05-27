@@ -39,7 +39,7 @@ public class LoggedServlet extends HttpServlet{
         for (Map.Entry<String, String> item: users.entrySet()) {
             if (username.equalsIgnoreCase(item.getKey()) && password.equalsIgnoreCase(item.getValue())) {
                 req.getSession().setAttribute("isLogged", "true");
-                resp.sendRedirect("/chat");
+                resp.sendRedirect("/login");
                 return;
             }
         }
